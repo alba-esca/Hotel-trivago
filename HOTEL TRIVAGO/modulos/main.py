@@ -19,12 +19,12 @@ def main(page: ft.Page):
         page.clean()
         ingresos_module(page)
 
-    # Botones para abrir los módulos
+    # Botones para abrir los modulos
     huespedes_button = ft.ElevatedButton("Módulo de Huéspedes", on_click=open_huespedes)
     habitaciones_button = ft.ElevatedButton("Módulo de Habitaciones", on_click=open_habitaciones)
     ingresos_button = ft.ElevatedButton("Módulo de Ingresos", on_click=open_ingresos)
 
-    # Agregar los botones a la página
+    # Agregar los botones a la pagina
     page.add(
         ft.Column(
             [

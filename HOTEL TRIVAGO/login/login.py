@@ -2,7 +2,7 @@ import flet as ft
 from helpers import convert_image_to_base64
 import mysql.connector
 
-#CREACION DEL LOGIN 
+#Creacion del login
 mensaje = ft.Text("")
 def conectar_db():
     return mysql.connector.connect(
@@ -33,7 +33,7 @@ def verificar_login(e):
     page.update()
 
 
-#CREACION INTERFAZ
+#creacion de la interfaz
 def main(page: ft.Page):
     page.title  = "HOTEL TRIVAGO"
     page.theme_mode = ft.ThemeMode.LIGHT
