@@ -1,7 +1,7 @@
 import flet as ft
-from huespedes import huespedes_module
-from habitaciones import habitaciones_module
-from ingresos import ingresos_module
+from views.huespedes_views import huespedes_module
+from views.habitaciones_views import habitaciones_module
+from views.ingresos_views import ingresos_module
 
 def main(page: ft.Page):
     page.title = "Hotel TRIVAGO - Administrador"
