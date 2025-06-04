@@ -1,53 +1,65 @@
 import flet as ft
+from controller.habitaciones_controller import HabitacionesController
 
-def habitaciones_module(page: ft.Page):
-    page.title = "Módulo de Habitaciones"
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.theme_mode = ft.ThemeMode.LIGHT
+class HabitacionesViews:
+    def __init__(self, page: ft.Page):
+        self.controller = HabitacionesController()
+        self.page = page
 
-    def agregar_habitacion(e):
-        
-        pass
+        self.page.title = "Módulo de Habitaciones"
+        self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
+        self.page.theme_mode = ft.ThemeMode.LIGHT
 
-    def editar_habitacion(e):
-        
-        pass
+        self.codigo_field = ft.TextField(label="Código", width=300)
+        self.numero_field = ft.TextField(label="Número", width=300)
+        self.tipo_field = ft.TextField(label="Tipo", width=300)
+        self.capacidad_field = ft.TextField(label="Capacidad", width=300)
+        self.precio_field = ft.TextField(label="Precio", width=300)
+        self.status_field = ft.TextField(label="Estado", width=300)
 
-    def eliminar_habitacion(e):
-        
-        pass
+        self.agregar_button = ft.ElevatedButton("Agregar Habitación", on_click=self.insertar_habitaciones)
+        self.editar_button = ft.ElevatedButton("Editar Habitación")
+        self.eliminar_button = ft.ElevatedButton("Eliminar Habitación")
+        self.listar_button = ft.ElevatedButton("Listar Habitaciones")
 
-    def listar_habitaciones(e):
-        
-        pass
-
-    codigo_field = ft.TextField(label="Código", width=300)
-    numero_field = ft.TextField(label="Número", width=300)
-    tipo_field = ft.TextField(label="Tipo", width=300)
-    capacidad_field = ft.TextField(label="Capacidad", width=300)
-    precio_field = ft.TextField(label="Precio", width=300)
-    status_field = ft.TextField(label="Estado", width=300)
-
-    agregar_button = ft.ElevatedButton("Agregar Habitación", on_click=agregar_habitacion)
-    editar_button = ft.ElevatedButton("Editar Habitación", on_click=editar_habitacion)
-    eliminar_button = ft.ElevatedButton("Eliminar Habitación", on_click=eliminar_habitacion)
-    listar_button = ft.ElevatedButton("Listar Habitaciones", on_click=listar_habitaciones)
-
-    page.add(
+        self.page.add(
         ft.Column(
             [
                 ft.Text("Módulo de Habitaciones", size=20),
-                codigo_field,
-                numero_field,
-                tipo_field,
-                capacidad_field,
-                precio_field,
-                status_field,
-                agregar_button,
-                editar_button,
-                eliminar_button,
-                listar_button
+                self.codigo_field,
+                self.numero_field,
+                self.tipo_field,
+                self.capacidad_field,
+                self.precio_field,
+                self.status_field,
+                self.agregar_button,
+                self.editar_button,
+                self.eliminar_button,
+                self.listar_button
             ],
             alignment=ft.MainAxisAlignment.CENTER
         )
     )
+
+    def insertar_habitaciones(self, e):
+        cod = self.codigo_field.value
+        num = self.numero_field.value
+        tip = self.tipo_field.value
+        cap = self.capacidad_field.value
+        pre = self.precio_field.value
+        stat = self.status_field.value
+        if cod != '' and num != '' and tip != '' and cap != '' and pre != '' and stat != '':
+            result = self.controller.insertar_habitacion(cod, num, tip, cap, pre, stat)
+            if result == True:
+                print(f'Habitación número {num} registrada con exito')
+                self.codigo_field.value = ""
+                self.numero_field.value = ""
+                self.tipo_field.value = ""
+                self.capacidad_field.value = ""
+                self.precio_field.value = ""
+                self.status_field.value = ""
+                self.page.update()
+            else:
+                print(result)
+        else:
+            print('Debe rellenar todos los campos')

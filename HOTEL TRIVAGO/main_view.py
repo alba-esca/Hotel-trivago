@@ -1,6 +1,6 @@
 import flet as ft
 from views.huespedes_views import huespedes_module
-from views.habitaciones_views import habitaciones_module
+from views.habitaciones_views import HabitacionesViews
 from views.ingresos_views import ingresos_module
 
 def main(page: ft.Page):
@@ -13,7 +13,7 @@ def main(page: ft.Page):
 
     def open_habitaciones(e):
         page.clean()
-        habitaciones_module(page)
+        HabitacionesViews(page)
 
     def open_ingresos(e):
         page.clean()
