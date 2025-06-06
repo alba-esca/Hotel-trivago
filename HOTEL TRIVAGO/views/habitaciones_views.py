@@ -19,7 +19,8 @@ def main(page: ft.Page):
 
     def open_huespedes(e):
         page.clean()
-        huespedes_module(page)
+        from views.huespedes_views import HuespedesViews
+        HuespedesViews(page)
 
     def open_habitaciones(e):
         page.clean()
