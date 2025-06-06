@@ -27,9 +27,61 @@ class ConexionDB:
         try:
             consulta = f'SELECT * FROM habitacion WHERE num_hab={num}'
             conf = self.obtener_datos(consulta)
-            if conf != None:
+            if conf == None:
                 try:
                     consulta = 'INSERT INTO habitacion VALUES(%s, %s, %s, %s, %s, %s)'
+                    #Conversión de tipo de habitación
+                    if tip == 'normal':
+                        tipFormat = 'N'
+                    elif tip == 'ejecutiva':
+                        tipFormat = 'E'
+                    elif tip == 'suite':
+                        tipFormat = 'S'
+                    else:
+                        e = 'Tipo de la habitación no válido'
+                        return e
+                    #Conversión de capacidad de habitación
+                    if cap == 'individual':
+                        capFormat = 'I'
+                    elif cap == 'matrimonial':
+                        capFormat = 'M'
+                    elif cap == 'doble':
+                        capFormat = 'D'
+                    elif cap == 'triple':
+                        capFormat = 'T'
+                    else:
+                        e = 'Capacidad de la habitación no válida'
+                        return e
+                    #Conversión de status de habitación
+                    if stat == 'disponible':
+                        statFormat = 'D'
+                    elif stat == 'ocupada':
+                        statFormat = 'O'
+                    else:
+                        e = 'Status de la habitación no válida'
+                    print(tipFormat, capFormat, statFormat)
+                    self.ejecutar_consulta(consulta, (cod, num, tipFormat, capFormat, pre, statFormat))
+                    self.cerrar_conexion()
+                    result = True
+                    return result
+                except mysql.connector.Error as e:
+                    self.cerrar_conexion()
+                    return e
+            else:
+                e = f'La habitación número {num} ya se encuentra registrada'
+                self.cerrar_conexion()
+                return e
+        except mysql.connector.Error as e:
+            self.cerrar_conexion()
+            return e
+        
+    """def actualizar_habitacion(self, cod, num, tip, cap, pre, stat):
+        try:
+            consulta = f'SELECT * FROM habitacion WHERE num_hab={num}'
+            conf = self.obtener_datos(consulta)
+            if conf != None:
+                try:
+                    consulta = 'UPDATE habitaciones SET cod_hab=%s, num_hab=%s, tip_hab=%s, cap_hab=%s, pre_hab=%s, sta_hab=%s'
                     #Conversión de tipo de habitación
                     if tip == 'normal':
                         tipFormat = 'N'
@@ -70,4 +122,4 @@ class ConexionDB:
                 e = f'La habitación número {num} ya se encuentra registrada'
                 return e
         except mysql.connector.Error as e:
-            return e
+            return e"""

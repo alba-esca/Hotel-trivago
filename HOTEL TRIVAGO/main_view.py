@@ -1,6 +1,7 @@
 import flet as ft
 from views.habitaciones_views import HabitacionesViews
 from views.huespedes_views import HuespedesViews
+from views.ingresos_views import IngresosViews
 
 def main(page: ft.Page):
 
@@ -27,7 +28,7 @@ def main(page: ft.Page):
 
     def open_ingresos(e):
         page.clean()
-        ingresos_module(page)
+        IngresosViews(page)
 
     # Estilo base para los botones
     button_style = ft.ButtonStyle(

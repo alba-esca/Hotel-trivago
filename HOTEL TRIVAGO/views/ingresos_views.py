@@ -1,4 +1,5 @@
 import flet as ft
+from controller.ingresos_controller import IngresosController
 #================Aqui esta el MAIN que devuelve al menu====================
 def main(page: ft.Page):
     page.title = "Hotel TRIVAGO - Administrador"
@@ -16,15 +17,17 @@ def main(page: ft.Page):
 
     def open_huespedes(e):
         page.clean()
-        huespedes_module(page)
+        from views.huespedes_views import HuespedesViews
+        HuespedesViews(page)
 
     def open_habitaciones(e):
         page.clean()
+        from views.habitaciones_views import HabitacionesViews
         HabitacionesViews(page)
 
     def open_ingresos(e):
         page.clean()
-        ingresos_module(page)
+        IngresosViews(page)
 
     # Estilo base para los botones
     button_style = ft.ButtonStyle(
@@ -84,126 +87,166 @@ def main(page: ft.Page):
 
 #===================Aqui empiza el modulo de ingresos======================================
 
-def ingresos_module(page: ft.Page):
-    page.title = "Módulo de Ingresos"
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.theme_mode = ft.ThemeMode.LIGHT
+class IngresosViews:
+    def __init__(self, page: ft.Page):
+        self.page = page
+        self.controller = IngresosController()
+        """self.page.title = "Hotel TRIVAGO - Administrador"
+        self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
+        self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        self.page.theme_mode = ft.ThemeMode.LIGHT
 
-    def registrar_ingreso(e):
-        pass
+        def open_huespedes(e):
+            self.page.clean()
+            huespedes_module(self.page)
 
-    def eliminar_ingreso(e):
-        pass
+        def open_habitaciones(e):
+            self.page.clean()
+            HabitacionesViews(self.page)
 
-    def listar_ingresos(e):
-        pass
+        def open_ingresos(e):
+            self.page.clean()
+            ingresos_module(self.page)
 
-    def volver_al_menu(e):
-        page.clean()  # Limpia la página actual
-        main(page)  # Carga el menú principal
+        # Botones para abrir los módulos
+        self.huespedes_button = ft.ElevatedButton("Huéspedes", on_click=open_huespedes)
+        self.habitaciones_button = ft.ElevatedButton("Habitaciones", on_click=open_habitaciones)
+        self.ingresos_button = ft.ElevatedButton("Ingresos", on_click=open_ingresos)
 
-    def only_numbers(e):
-        if not e.control.value.isdigit():
-            e.control.value = e.control.value[:-1]
-            page.update()
+        # Agregar los botones a la página
+        self.page.add(
+            ft.Column(
+                [
+                    ft.Text("Panel de Administrador", size=20),
+                    self.huespedes_button,
+                    self.habitaciones_button,
+                    self.ingresos_button
+                ],
+                alignment=ft.MainAxisAlignment.CENTER
+            )
+        )"""
 
-    def format_date(e):
-        # Remove any non-digit characters
-        cleaned_value = ''.join(filter(str.isdigit, e.control.value))
-        # Format the date as dd/mm/aaaa while typing
-        if len(cleaned_value) > 2:
-            cleaned_value = f"{cleaned_value[:2]}/{cleaned_value[2:]}"
-        if len(cleaned_value) > 5:
-            cleaned_value = f"{cleaned_value[:5]}/{cleaned_value[5:]}"
-        e.control.value = cleaned_value
-        page.update()
+        self.page.title = "Módulo de Ingresos"
+        self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
+        self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+        self.page.theme_mode = ft.ThemeMode.LIGHT
 
-    # Campos de entrada
-    codigo_ingreso_field = ft.TextField(
-        label="Código de Ingreso",
-        width=300,
-        text_align="center",
-        keyboard_type=ft.KeyboardType.NUMBER,
-        on_change=only_numbers
-    )
-    cedula_huesped_field = ft.TextField(
-        label="Cédula del Huésped",
-        width=300,
-        text_align="center",
-        keyboard_type=ft.KeyboardType.NUMBER,
-        on_change=only_numbers
-    )
-    codigo_habitacion_field = ft.TextField(
-        label="Código de Habitación",
-        width=300,
-        text_align="center",
-        keyboard_type=ft.KeyboardType.NUMBER,
-        on_change=only_numbers
-    )
-    fecha_ingreso_field = ft.TextField(
-        label="Fecha de Ingreso",
-        width=300,
-        text_align="center",
-        hint_text="dd/mm/aaaa",
-        on_change=format_date
-    )
-    fecha_salida_field = ft.TextField(
-        label="Fecha de Salida",
-        width=300,
-        text_align="center",
-        hint_text="dd/mm/aaaa",
-        on_change=format_date
-    )
-    cantidad_personas_field = ft.TextField(
-        label="Cantidad de Personas",
-        width=300,
-        text_align="center",
-        keyboard_type=ft.KeyboardType.NUMBER,
-        on_change=only_numbers
-    )
+        def registrar_ingreso(e):
+            pass
 
-    # Agregar una imagen en la parte superior izquierda
-    image = ft.Image(src="HOTEL TRIVAGO/login/logo/Trivago_logo.png", width=150, height=150)  # Reducir el tamaño de la imagen
+        def eliminar_ingreso(e):
+            pass
 
-    # Botones
-    registrar_button = ft.ElevatedButton("Registrar Ingreso", on_click=registrar_ingreso, color="blue", bgcolor="white")
-    listar_button = ft.ElevatedButton("Listar Ingresos", on_click=listar_ingresos, color="blue", bgcolor="white")
-    eliminar_button = ft.ElevatedButton("Eliminar Ingreso", on_click=eliminar_ingreso, color="red", bgcolor="white")
-    volver_button = ft.ElevatedButton("Volver al Menú", on_click=volver_al_menu, color="blue", bgcolor="white")
+        def listar_ingresos(e):
+            pass
 
-    page.add(
-        ft.Column(
-            [
-                ft.Row(
-                    [
-                        image,  # Agregar la imagen
-                        ft.Text("Módulo de Ingresos", size=20, text_align="center")
-                    ],
-                    alignment=ft.MainAxisAlignment.START
-                ),
-                codigo_ingreso_field,  # Nuevo campo agregado
-                cedula_huesped_field,
-                codigo_habitacion_field,
-                fecha_ingreso_field,
-                fecha_salida_field,
-                cantidad_personas_field,
-                ft.Row(
-                    [
-                        registrar_button,
-                        listar_button,
-                        eliminar_button,
-                        volver_button
-                    ],
-                    alignment=ft.MainAxisAlignment.CENTER,
-                    spacing=10  # Reducir el espacio entre los botones
-                )
-            ],
-            alignment=ft.MainAxisAlignment.CENTER,
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=10  # Reducir el espacio entre los elementos
+        def volver_al_menu(e):
+            self.page.clean()  # Limpia la página actual
+            main(page)  # Carga el menú principal
+
+        # Listas de opciones para las listas desplegables
+        ci_list = self.listar_ci()
+        self.cedulas_huespedes = []  # Ejemplo de cédulas
+        for i in ci_list:
+            self.cedulas_huespedes.append(i)
+
+        hab_list = self.listar_hab()
+        self.codigos_habitacion = ["101", "102", "103", "201", "202"]  # Ejemplo de códigos de habitación
+        for i in hab_list:
+            self.codigos_habitacion.append(i)
+
+        # Campos de entrada
+        self.codigo_ingreso_field = ft.TextField(
+            label="Código de Ingreso",
+            width=300,
+            text_align="center",
+            keyboard_type=ft.KeyboardType.NUMBER
         )
-    )
+        self.cedula_huesped_field = ft.Dropdown(
+            label="Cédula del Huésped",
+            width=300,
+            options=[ft.dropdown.Option(text=cedula) for cedula in self.cedulas_huespedes]
+        )
+        self.codigo_habitacion_field = ft.Dropdown(
+            label="Código de Habitación",
+            width=300,
+            options=[ft.dropdown.Option(text=codigo) for codigo in self.codigos_habitacion]
+        )
+        self.fecha_ingreso_field = ft.TextField(
+            label="Fecha de Ingreso",
+            width=300,
+            text_align="center",
+            hint_text="dd/mm/aaaa"
+        )
+        self.fecha_salida_field = ft.TextField(
+            label="Fecha de Salida",
+            width=300,
+            text_align="center",
+            hint_text="dd/mm/aaaa"
+        )
+        self.cantidad_personas_field = ft.TextField(
+            label="Cantidad de Personas",
+            width=300,
+            text_align="center",
+            keyboard_type=ft.KeyboardType.NUMBER,
+            on_change=self.validate_numbers
+        )
+
+        # Agregar una imagen en la parte superior izquierda
+        self.image = ft.Image(src="HOTEL TRIVAGO/login/logo/Trivago_logo.png", width=150, height=150)  # Reducir el tamaño de la imagen
+
+        # Botones
+        self.registrar_button = ft.ElevatedButton("Registrar Ingreso", on_click=registrar_ingreso, color="blue", bgcolor="white")
+        self.listar_button = ft.ElevatedButton("Listar Ingresos", on_click=listar_ingresos, color="blue", bgcolor="white")
+        self.eliminar_button = ft.ElevatedButton("Eliminar Ingreso", on_click=eliminar_ingreso, color="red", bgcolor="white")
+        self.volver_button = ft.ElevatedButton("Volver al Menú", on_click=volver_al_menu, color="blue", bgcolor="white")
+
+        self.page.add(
+            ft.Column(
+                [
+                    ft.Row(
+                        [
+                            self.image,  # Agregar la imagen
+                            ft.Text("Módulo de Ingresos", size=20, text_align="center")
+                        ],
+                        alignment=ft.MainAxisAlignment.START
+                    ),
+                    self.codigo_ingreso_field,  # Nuevo campo agregado
+                    self.cedula_huesped_field,
+                    self.codigo_habitacion_field,
+                    self.fecha_ingreso_field,
+                    self.fecha_salida_field,
+                    self.cantidad_personas_field,
+                    ft.Row(
+                        [
+                            self.registrar_button,
+                            self.listar_button,
+                            self.eliminar_button,
+                            self.volver_button
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        spacing=10  # Reducir el espacio entre los botones
+                    )
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=10  # Reducir el espacio entre los elementos
+            )
+        )
+
+    def listar_ci(self):
+        result = self.controller.listar_ci()
+        return result
+
+    def listar_hab(self):
+        result = self.controller.listar_hab()
+        return result
+
+    def validate_numbers(self, e):
+        # Validar que solo se ingresen números
+        if not e.control.value.isdigit():
+            e.control.value = e.control.value[:-1]  # Eliminar el último carácter no numérico
+            self.page.update()
 
 # Iniciar la aplicación Flet
 ft.app(target=main)
