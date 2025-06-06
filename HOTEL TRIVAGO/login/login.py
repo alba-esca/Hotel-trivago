@@ -1,41 +1,8 @@
 import flet as ft
-from helpers import convert_image_to_base64
-import mysql.connector
+import os
 
-#CREACION DEL LOGIN 
-mensaje = ft.Text("")
-def conectar_db():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="hospedaje"
-    )
-
-def verificar_login(e):
-    usuario = user_field.value
-    contrasena = pass_field.value
-
-    conn = conectar_db()
-    cursor = conn.cursor()
-    consulta = "SELECT * FROM usuarios WHERE username=%s AND password=%s"
-    cursor.execute(consulta, (usuario, contrasena))
-    resultado = cursor.fetchone()
-
-    if resultado:
-        mensaje.value = "Inicio de sesión exitoso"
-        mensaje.color = "green"
-    else:
-        mensaje.value = "Usuario o contraseña incorrectos"
-        mensaje.color = "red"
-
-    conn.close()
-    page.update()
-
-
-#CREACION INTERFAZ
 def main(page: ft.Page):
-    page.title  = "HOTEL TRIVAGO"
+    page.title = "HOTEL TRIVAGO"
     page.theme_mode = ft.ThemeMode.LIGHT
     
     page.appbar = ft.AppBar(
@@ -43,13 +10,45 @@ def main(page: ft.Page):
         bgcolor=ft.Colors.BLUE
     )
 
-    image = convert_image_to_base64("hotel_tri/assets/Trivago_logo.png")
+    # Ruta de la imagen del logo
+    relative_image_path = "HOTEL TRIVAGO/login/logo/Trivago_logo.png"
+    absolute_image_path = os.path.abspath(relative_image_path)
+
+    if not os.path.exists(absolute_image_path):
+        print(f"La imagen no existe en la ruta especificada: {absolute_image_path}")
+        absolute_image_path = None
+
     text_sesion = ft.Text(value="Iniciando sesión...", size=20, weight="bold", text_align="center")
     text_sesion.visible = False
-    def handleOnClick():
-        text_sesion.visible = True
-        verificar_login(None)
+    text_error = ft.Text(value="", size=14, color=ft.Colors.RED, text_align="center")
+    text_error.visible = False
+
+    def handleOnClick(e):
+        username = user_field.value
+        password = password_field.value
+        if username == "admin" and password == "1234":
+            text_sesion.value = "Inicio de sesión exitoso"
+            text_sesion.color = ft.Colors.GREEN
+            text_error.visible = False
+            text_sesion.visible = True
+        else:
+            text_error.value = "Usuario o contraseña incorrectos"
+            text_error.visible = True
+            text_sesion.visible = False
         page.update()
+
+    user_field = ft.TextField(label="Usuario", width=300)
+    password_field = ft.TextField(label="Contraseña", width=300, password=True)
+
+    # Footer
+    footer = ft.Container(
+        width=page.width,
+        height=50,
+        bgcolor=ft.Colors.BLUE,
+        alignment=ft.alignment.center,
+        content=ft.Text("© 2025 Trivago", color=ft.Colors.WHITE)
+    )
+
     page.add(
         ft.Row(
             controls=[
@@ -66,29 +65,33 @@ def main(page: ft.Page):
                                 controls=[
                                     ft.Row(controls=[
                                         ft.Image(
-                                            src_base64=image, width=300
-                                        ),
+                                            src=absolute_image_path,  # Cargar la imagen directamente desde la ruta absoluta
+                                            width=300
+                                        ) if absolute_image_path else ft.Text("Imagen no encontrada"),
                                     ]),
                                     ft.Row(
-                                            controls=[
-                                            ft.TextField(label="Usuario", width=300),
-                                            ]
+                                        controls=[
+                                            user_field,
+                                        ]
                                     ),
                                     ft.Row(
-                                            controls=[
-                                            ft.TextField(label="Contraseña", width=300, password=True),
-                                            ]
+                                        controls=[
+                                            password_field,
+                                        ]
                                     ),
                                     ft.Row(
-                                            controls=[
-                                                ft.ElevatedButton("Iniciar sesión", on_click=lambda _: handleOnClick(), width=300)])
-                                ])
+                                        controls=[
+                                            ft.ElevatedButton("Iniciar sesión", on_click=handleOnClick, width=300)
+                                        ]
+                                    )
+                                ] + [text_sesion, text_error]
+                            )
                         )
                     ], expand=True, horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 )
-            ], expand=True
-        )
+            ], expand=True, vertical_alignment=ft.MainAxisAlignment.CENTER
+        ),
+        footer  # Agregar el footer al final de la página
     )
-
 
 ft.app(main)
