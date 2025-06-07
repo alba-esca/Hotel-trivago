@@ -119,12 +119,6 @@ class IngresosViews:
             self.codigos_habitacion.append(i)
 
         # Campos de entrada
-        """self.codigo_ingreso_field = ft.TextField(
-            label="Código de Ingreso",
-            width=300,
-            text_align="center",
-            keyboard_type=ft.KeyboardType.NUMBER
-        )"""
         self.cedula_huesped_field = ft.Dropdown(
             label="Cédula del Huésped",
             width=300,
@@ -152,7 +146,8 @@ class IngresosViews:
             width=300,
             text_align="center",
             keyboard_type=ft.KeyboardType.NUMBER,
-            on_change=self.validate_numbers
+            on_change=self.validate_numbers,
+            max_length=3
         )
 
         # Agregar una imagen en la parte superior izquierda

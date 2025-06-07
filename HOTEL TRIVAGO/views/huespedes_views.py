@@ -104,13 +104,13 @@ class HuespedesViews:
             self.page.clean()  # Limpia la página actual
             main(self.page)  # Carga el menú principal
 
-        self.cedula_field = ft.TextField(label="Cédula", width=300)
-        self.nombres_field = ft.TextField(label="Nombres", width=300)
-        self.apellidos_field = ft.TextField(label="Apellidos", width=300)
-        self.direccion_field = ft.TextField(label="Dirección", width=300)
-        self.ciudad_field = ft.TextField(label="Ciudad", width=300)
-        self.email_field = ft.TextField(label="Email", width=300)
-        self.telefono_field = ft.TextField(label="Teléfono", width=300)
+        self.cedula_field = ft.TextField(label="Cédula", width=300, max_length=8, on_change=self.validate_numbers)
+        self.nombres_field = ft.TextField(label="Nombres", width=300, max_length=15)
+        self.apellidos_field = ft.TextField(label="Apellidos", width=300, max_length=15)
+        self.direccion_field = ft.TextField(label="Dirección", width=300, max_length=80)
+        self.ciudad_field = ft.TextField(label="Ciudad", width=300, max_length=15)
+        self.email_field = ft.TextField(label="Email", width=300, max_length=30)
+        self.telefono_field = ft.TextField(label="Teléfono", width=300, max_length=12)
 
         self.agregar_button = ft.ElevatedButton("Agregar Huésped", on_click=self.insertar_huesped)
         self.editar_button = ft.ElevatedButton("Editar Huésped", on_click=editar_huesped)
@@ -176,6 +176,12 @@ class HuespedesViews:
                 print(result)
         else:
             print('Debe rellenar todos los campos')
+
+    def validate_numbers(self, e):
+        # Validar que solo se ingresen números
+        if not e.control.value.isdigit() and e.control.value != '-':
+            e.control.value = e.control.value[:-1]  # Eliminar el último carácter no numérico
+            self.page.update()
 
 if __name__ == "__main__":
     ft.app(target=main)

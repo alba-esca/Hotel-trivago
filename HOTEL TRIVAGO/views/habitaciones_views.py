@@ -96,12 +96,14 @@ class HabitacionesViews:
         self.codigo_field = ft.TextField(
             label="Código",
             width=300,
-            on_change=self.validate_numbers
+            on_change=self.validate_numbers,
+            max_length=4
         )
         self.numero_field = ft.TextField(
             label="Número",
             width=300,
-            on_change=self.validate_numbers
+            on_change=self.validate_numbers,
+            max_length=4
         )
         
         # Campos con listas desplegables
@@ -129,7 +131,8 @@ class HabitacionesViews:
             label="Precio",
             width=300,
             prefix_text="$USD ",
-            on_change=self.validate_numbers
+            on_change=self.validate_numbers,
+            max_length=15
         )
         self.status_field = ft.Dropdown(
             label="Estado",
