@@ -1,4 +1,5 @@
 import flet as ft
+from controller.huespedes_controller import HuespedController
 
 # =================Aqui esta el MAIN que devuelve al menu====================
 def main(page: ft.Page):
@@ -82,6 +83,7 @@ def main(page: ft.Page):
 class HuespedesViews:
     def __init__(self, page: ft.Page):
         self.page = page
+        self.controller = HuespedController()
         self.page.title = "Módulo de Huéspedes"
         self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
         self.page.theme_mode = ft.ThemeMode.LIGHT
@@ -110,7 +112,7 @@ class HuespedesViews:
         self.email_field = ft.TextField(label="Email", width=300)
         self.telefono_field = ft.TextField(label="Teléfono", width=300)
 
-        self.agregar_button = ft.ElevatedButton("Agregar Huésped", on_click=agregar_huesped)
+        self.agregar_button = ft.ElevatedButton("Agregar Huésped", on_click=self.insertar_huesped)
         self.editar_button = ft.ElevatedButton("Editar Huésped", on_click=editar_huesped)
         self.eliminar_button = ft.ElevatedButton("Eliminar Huésped", on_click=eliminar_huesped)
         self.listar_button = ft.ElevatedButton("Listar Huéspedes", on_click=listar_huespedes)
@@ -150,6 +152,30 @@ class HuespedesViews:
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             )
         )
+
+    def insertar_huesped(self, e):
+        ci = self.cedula_field.value
+        nom = self.nombres_field.value
+        ape = self.apellidos_field.value
+        dir = self.direccion_field.value
+        ciu = self.ciudad_field.value
+        email = self.email_field.value
+        tel = self.telefono_field.value
+        if ci != '' and nom != '' and ape != '' and dir != '' and ciu != '' and email != '' and tel != '':
+            result = self.controller.insertar_huesped(ci, nom, ape, dir, ciu, email, tel)
+            if result == True:
+                print(f'El huesped {nom} ha sido agregado correctamente')
+                self.cedula_field = ''
+                self.nombres_field = ''
+                self.apellidos_field = ''
+                self.direccion_field = ''
+                self.ciudad_field = ''
+                self.email_field = ''
+                self.telefono_field = ''
+            else:
+                print(result)
+        else:
+            print('Debe rellenar todos los campos')
 
 if __name__ == "__main__":
     ft.app(target=main)
