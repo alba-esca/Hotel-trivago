@@ -27,7 +27,8 @@ def main(page: ft.Page):
 
     def open_ingresos(e):
         page.clean()
-        ingresos_module(page)
+        from views.ingresos_views import IngresosViews
+        IngresosViews(page)
 
     # Estilo base para los botones
     button_style = ft.ButtonStyle(
@@ -118,7 +119,14 @@ class HuespedesViews:
         page.add(
             ft.Column(
                 [
-                    ft.Text("Módulo de Huéspedes", size=20),
+                    ft.Row(
+                        [
+                            ft.Image(src="HOTEL TRIVAGO/login/logo/Trivago_logo.png", width=200, height=45),  # Imagen en la esquina superior izquierda
+                            ft.Text("Módulo de Huéspedes", size=20,)  # Texto "Módulo de Habitaciones"
+                        ],
+                        alignment=ft.MainAxisAlignment.START,  # Alinear desde el inicio
+                        vertical_alignment=ft.CrossAxisAlignment.START
+                    ),
                     self.cedula_field,
                     self.nombres_field,
                     self.apellidos_field,
@@ -126,13 +134,20 @@ class HuespedesViews:
                     self.ciudad_field,
                     self.email_field,
                     self.telefono_field,
-                    self.agregar_button,
-                    self.editar_button,
-                    self.eliminar_button,
-                    self.listar_button,
-                    self.volver_button  # Agregado el botón de volver al menú
+                    ft.Row(
+                        [
+                            self.agregar_button,
+                            self.editar_button,
+                            self.eliminar_button,
+                            self.listar_button,
+                            self.volver_button  # Agregado el botón de volver al menú
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        spacing=20
+                    )
                 ],
-                alignment=ft.MainAxisAlignment.CENTER
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             )
         )
 

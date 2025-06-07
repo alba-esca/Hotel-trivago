@@ -163,7 +163,6 @@ class IngresosViews:
         self.listar_button = ft.ElevatedButton("Listar Ingresos", on_click=listar_ingresos, color="blue", bgcolor="white")
         self.eliminar_button = ft.ElevatedButton("Eliminar Ingreso", on_click=eliminar_ingreso, color="red", bgcolor="white")
         self.volver_button = ft.ElevatedButton("Volver al Menú", on_click=volver_al_menu, color="blue", bgcolor="white")
-        self.x_button = ft.ElevatedButton("ya sabe", on_click=self.prueba, color="blue", bgcolor="white")
 
         self.page.add(
             ft.Column(
@@ -185,8 +184,7 @@ class IngresosViews:
                             self.registrar_button,
                             self.listar_button,
                             self.eliminar_button,
-                            self.volver_button,
-                            self.x_button
+                            self.volver_button
                         ],
                         alignment=ft.MainAxisAlignment.CENTER,
                         spacing=10  # Reducir el espacio entre los botones
