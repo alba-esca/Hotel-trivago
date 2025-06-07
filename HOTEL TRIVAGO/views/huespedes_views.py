@@ -89,8 +89,7 @@ class HuespedesViews:
         self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
         self.page.theme_mode = ft.ThemeMode.LIGHT
 
-        def editar_huesped(e):
-            pass
+        
 
         def eliminar_huesped(e):
             pass
@@ -111,7 +110,7 @@ class HuespedesViews:
         self.telefono_field = ft.TextField(label="Teléfono", width=300, max_length=12)
 
         self.agregar_button = ft.ElevatedButton("Agregar Huésped", on_click=self.insertar_huesped)
-        self.editar_button = ft.ElevatedButton("Editar Huésped", on_click=editar_huesped)
+        self.editar_button = ft.ElevatedButton("Editar Huésped", on_click=self.editar_huesped)
         self.eliminar_button = ft.ElevatedButton("Eliminar Huésped", on_click=eliminar_huesped)
         self.listar_button = ft.ElevatedButton("Listar Huéspedes", on_click=listar_huespedes)
         self.volver_button = ft.ElevatedButton("Volver al Menú", on_click=volver_al_menu)
@@ -174,6 +173,19 @@ class HuespedesViews:
                 print(result)
         else:
             print('Debe rellenar todos los campos')
+
+    def editar_huesped(self, e):
+            self.page.views.append(
+                ft.View(
+                    route='/full',
+                    fullscreen_dialog=True,
+                    appbar=ft.AppBar(title=ft.Text('Editar Huésped')),
+                    controls=[
+                        ft.Text('Textazo', size=150)
+                    ],
+                )
+            )
+            self.page.go('/full')
 
     def validate_numbers(self, e):
         # Validar que solo se ingresen números
