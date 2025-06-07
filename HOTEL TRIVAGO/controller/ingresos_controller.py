@@ -11,3 +11,7 @@ class IngresosController:
     def listar_hab(self):
         result = self.model.listar_hab()
         return result
+    
+    def insertar_ingreso(self, hue, hab, fec_ing, fec_sal, can):
+        result = self.model.insertar_ingreso(hue, hab, fec_ing, fec_sal, can)
+        return result

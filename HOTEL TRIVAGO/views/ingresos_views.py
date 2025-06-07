@@ -91,48 +91,11 @@ class IngresosViews:
     def __init__(self, page: ft.Page):
         self.page = page
         self.controller = IngresosController()
-        """self.page.title = "Hotel TRIVAGO - Administrador"
-        self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
-        self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-        self.page.theme_mode = ft.ThemeMode.LIGHT
-
-        def open_huespedes(e):
-            self.page.clean()
-            huespedes_module(self.page)
-
-        def open_habitaciones(e):
-            self.page.clean()
-            HabitacionesViews(self.page)
-
-        def open_ingresos(e):
-            self.page.clean()
-            ingresos_module(self.page)
-
-        # Botones para abrir los módulos
-        self.huespedes_button = ft.ElevatedButton("Huéspedes", on_click=open_huespedes)
-        self.habitaciones_button = ft.ElevatedButton("Habitaciones", on_click=open_habitaciones)
-        self.ingresos_button = ft.ElevatedButton("Ingresos", on_click=open_ingresos)
-
-        # Agregar los botones a la página
-        self.page.add(
-            ft.Column(
-                [
-                    ft.Text("Panel de Administrador", size=20),
-                    self.huespedes_button,
-                    self.habitaciones_button,
-                    self.ingresos_button
-                ],
-                alignment=ft.MainAxisAlignment.CENTER
-            )
-        )"""
 
         self.page.title = "Módulo de Ingresos"
         self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
         self.page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         self.page.theme_mode = ft.ThemeMode.LIGHT
-
-        def registrar_ingreso(e):
-            pass
 
         def eliminar_ingreso(e):
             pass
@@ -151,17 +114,17 @@ class IngresosViews:
             self.cedulas_huespedes.append(i)
 
         hab_list = self.listar_hab()
-        self.codigos_habitacion = ["101", "102", "103", "201", "202"]  # Ejemplo de códigos de habitación
+        self.codigos_habitacion = []  # Ejemplo de códigos de habitación
         for i in hab_list:
             self.codigos_habitacion.append(i)
 
         # Campos de entrada
-        self.codigo_ingreso_field = ft.TextField(
+        """self.codigo_ingreso_field = ft.TextField(
             label="Código de Ingreso",
             width=300,
             text_align="center",
             keyboard_type=ft.KeyboardType.NUMBER
-        )
+        )"""
         self.cedula_huesped_field = ft.Dropdown(
             label="Cédula del Huésped",
             width=300,
@@ -176,13 +139,13 @@ class IngresosViews:
             label="Fecha de Ingreso",
             width=300,
             text_align="center",
-            hint_text="dd/mm/aaaa"
+            hint_text="AAAA/MM/DD"
         )
         self.fecha_salida_field = ft.TextField(
             label="Fecha de Salida",
             width=300,
             text_align="center",
-            hint_text="dd/mm/aaaa"
+            hint_text="AAAA/MM/DD"
         )
         self.cantidad_personas_field = ft.TextField(
             label="Cantidad de Personas",
@@ -196,10 +159,11 @@ class IngresosViews:
         self.image = ft.Image(src="HOTEL TRIVAGO/login/logo/Trivago_logo.png", width=150, height=150)  # Reducir el tamaño de la imagen
 
         # Botones
-        self.registrar_button = ft.ElevatedButton("Registrar Ingreso", on_click=registrar_ingreso, color="blue", bgcolor="white")
+        self.registrar_button = ft.ElevatedButton("Registrar Ingreso", on_click=self.insertar_ingreso, color="blue", bgcolor="white")
         self.listar_button = ft.ElevatedButton("Listar Ingresos", on_click=listar_ingresos, color="blue", bgcolor="white")
         self.eliminar_button = ft.ElevatedButton("Eliminar Ingreso", on_click=eliminar_ingreso, color="red", bgcolor="white")
         self.volver_button = ft.ElevatedButton("Volver al Menú", on_click=volver_al_menu, color="blue", bgcolor="white")
+        self.x_button = ft.ElevatedButton("ya sabe", on_click=self.prueba, color="blue", bgcolor="white")
 
         self.page.add(
             ft.Column(
@@ -211,7 +175,6 @@ class IngresosViews:
                         ],
                         alignment=ft.MainAxisAlignment.START
                     ),
-                    self.codigo_ingreso_field,  # Nuevo campo agregado
                     self.cedula_huesped_field,
                     self.codigo_habitacion_field,
                     self.fecha_ingreso_field,
@@ -222,7 +185,8 @@ class IngresosViews:
                             self.registrar_button,
                             self.listar_button,
                             self.eliminar_button,
-                            self.volver_button
+                            self.volver_button,
+                            self.x_button
                         ],
                         alignment=ft.MainAxisAlignment.CENTER,
                         spacing=10  # Reducir el espacio entre los botones
@@ -233,6 +197,21 @@ class IngresosViews:
                 spacing=10  # Reducir el espacio entre los elementos
             )
         )
+
+    def insertar_ingreso(self, e=None):
+        hue = self.cedula_huesped_field.value
+        hab = self.codigo_habitacion_field.value
+        fec_ing = self.fecha_ingreso_field.value
+        fec_sal = self.fecha_salida_field.value
+        can = self.cantidad_personas_field.value
+        if hue != '' and hab != '' and fec_ing != '' and fec_sal != '' and can != '':
+            result = self.controller.insertar_ingreso(hue, hab, fec_ing, fec_sal, can)
+            if result == True:
+                print('Ingrese agregado de forma exitosa')
+            else:
+                print(result)
+        else:
+            print('Debe rellenar todos los campos')
 
     def listar_ci(self):
         result = self.controller.listar_ci()
@@ -248,5 +227,9 @@ class IngresosViews:
             e.control.value = e.control.value[:-1]  # Eliminar el último carácter no numérico
             self.page.update()
 
+    def prueba(self, e=None):
+        ci = self.cedula_huesped_field.value
+        hab = self.codigo_habitacion_field.value
+        print(f'Huesped: {ci} de tipo {type(ci)}\nHabitacion: {hab} de tipo {type(hab)}')
 # Iniciar la aplicación Flet
 ft.app(target=main)

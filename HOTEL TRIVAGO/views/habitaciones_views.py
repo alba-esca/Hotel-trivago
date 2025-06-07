@@ -28,7 +28,8 @@ def main(page: ft.Page):
 
     def open_ingresos(e):
         page.clean()
-        ingresos_module(page)
+        from views.ingresos_views import IngresosViews
+        IngresosViews(page)
 
     # Estilo base para los botones
     button_style = ft.ButtonStyle(
