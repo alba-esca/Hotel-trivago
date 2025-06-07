@@ -173,22 +173,23 @@ class HuespedesViews:
             print('Debe rellenar todos los campos')
 
     def editar_huesped(self, e):
-            edit_cedula_field = ft.TextField(label="Cédula", width=300, max_length=8, on_change=self.validate_numbers)
-            edit_nombres_field = ft.TextField(label="Nombres", width=300, max_length=15)
-            edit_apellidos_field = ft.TextField(label="Apellidos", width=300, max_length=15)
-            edit_direccion_field = ft.TextField(label="Dirección", width=300, max_length=80)
-            edit_ciudad_field = ft.TextField(label="Ciudad", width=300, max_length=15)
-            edit_email_field = ft.TextField(label="Email", width=300, max_length=30)
-            edit_telefono_field = ft.TextField(label="Teléfono", width=300, max_length=12)
+            self.edit_cedula_field = ft.TextField(label="Cédula", width=300, max_length=8, on_change=self.validate_numbers)
+            self.edit_nombres_field = ft.TextField(label="Nombres", width=300, max_length=15)
+            self.edit_apellidos_field = ft.TextField(label="Apellidos", width=300, max_length=15)
+            self.edit_direccion_field = ft.TextField(label="Dirección", width=300, max_length=80)
+            self.edit_ciudad_field = ft.TextField(label="Ciudad", width=300, max_length=15)
+            self.edit_email_field = ft.TextField(label="Email", width=300, max_length=30)
+            self.edit_telefono_field = ft.TextField(label="Teléfono", width=300, max_length=12)
+            self.actualizar_button = ft.ElevatedButton("Actualizar Huésped", on_click=self.actualizar_huesped)
 
             campos = [
-                (self.cedula_field, edit_cedula_field),
-                (self.nombres_field, edit_nombres_field),
-                (self.apellidos_field, edit_apellidos_field),
-                (self.direccion_field, edit_direccion_field), 
-                (self.ciudad_field, edit_ciudad_field),
-                (self.email_field, edit_email_field),
-                (self.telefono_field, edit_telefono_field)
+                (self.cedula_field, self.edit_cedula_field),
+                (self.nombres_field, self.edit_nombres_field),
+                (self.apellidos_field, self.edit_apellidos_field),
+                (self.direccion_field, self.edit_direccion_field), 
+                (self.ciudad_field, self.edit_ciudad_field),
+                (self.email_field, self.edit_email_field),
+                (self.telefono_field, self.edit_telefono_field)
                 ]
 
             for original, edit in campos:
@@ -201,17 +202,35 @@ class HuespedesViews:
                     fullscreen_dialog=True,
                     appbar=ft.AppBar(title=ft.Text('Editar Huésped')),
                     controls=[
-                        edit_cedula_field,
-                        edit_nombres_field,
-                        edit_apellidos_field,
-                        edit_direccion_field,
-                        edit_ciudad_field,
-                        edit_email_field,
-                        edit_telefono_field
+                        self.edit_cedula_field,
+                        self.edit_nombres_field,
+                        self.edit_apellidos_field,
+                        self.edit_direccion_field,
+                        self.edit_ciudad_field,
+                        self.edit_email_field,
+                        self.edit_telefono_field,
+                        self.actualizar_button
                     ],
                 )
             )
             self.page.go('/full')
+
+    def actualizar_huesped(self, e):
+        ci = self.edit_cedula_field.value
+        nom = self.edit_nombres_field.value
+        ape = self.edit_apellidos_field.value
+        dir = self.edit_direccion_field.value
+        ciu = self.edit_ciudad_field.value
+        email = self.edit_email_field.value
+        tel = self.edit_telefono_field.value
+        if ci != '':
+            result = self.controller.actualizar_huesped(ci, nom, ape, dir, ciu, email, tel)
+            if result == True:
+                print('Huésped actualizado de forma exitosa')
+            else:
+                print(result)
+        else:
+            print('Cédula no puede estar vacío')
 
     def validate_numbers(self, e):
         # Validar que solo se ingresen números

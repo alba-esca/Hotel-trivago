@@ -67,7 +67,7 @@ class ConexionDB:
             self.cerrar_conexion()
             return e
 
-    def info_huesped(self, ci):
+    """def info_huesped(self, ci):
         try:
             consulta = 'SELECT * FROM huesped WHERE ced_hue=%s'
             result = self.obtener_datos(consulta, (ci,))
@@ -80,4 +80,51 @@ class ConexionDB:
                 return e
         except mysql.connector.Error as e:
             self.cerrar_conexion()
-            return e
+            return e"""
+
+    def actualizar_huesped(self, ci, nom, ape, dir, ciu, email, tel):
+        try:
+            consulta = 'SELECT nom_hue FROM huesped WHERE ced_hue=%s'
+            conf = self.obtener_datos(consulta, (ci,))
+            if conf:
+                campos_actualizar = []
+                valores_actualizar = []
+
+                if nom:
+                    campos_actualizar.append('nom_hue=%s')
+                    valores_actualizar.append(nom)
+                if ape:
+                    campos_actualizar.append('ape_hue=%s')
+                    valores_actualizar.append(ape)
+                if dir:
+                    campos_actualizar.append('dir_hue=%s')
+                    valores_actualizar.append(dir)
+                if ciu:
+                    campos_actualizar.append('ciu_hue=%s')
+                    valores_actualizar.append(ciu)
+                if email:
+                    campos_actualizar.append('email_hue=%s')
+                    valores_actualizar.append(email)
+                if tel:
+                    campos_actualizar.append('tel_hue=%s')
+                    valores_actualizar.append(tel)
+
+                if campos_actualizar:
+                    consulta = f'UPDATE huesped SET {', '.join(campos_actualizar)} WHERE ced_hue=%s'
+                    valores_actualizar.append(ci)
+
+                try:
+                    self.ejecutar_consulta(consulta, valores_actualizar)
+                    result = True
+                    self.cerrar_conexion()
+                    return result
+                except mysql.connector.Error as e:
+                    self.cerrar_conexion()
+                    return(e)
+            else:
+                e = 'El huesped no existe'
+                self.cerrar_conexion()
+                return e
+        except mysql.connector.Error as e:
+            self.cerrar_conexion()
+            return(e)

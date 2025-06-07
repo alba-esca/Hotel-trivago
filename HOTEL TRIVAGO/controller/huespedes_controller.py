@@ -15,3 +15,7 @@ class HuespedController:
     def info_huesped(self, ci):
         result = self.model.info_huesped(ci)
         return result
+
+    def actualizar_huesped(self, ci, nom, ape, dir, ciu, email, tel):
+        result = self.model.actualizar_huesped(ci, nom, ape, dir, ciu, email, tel)
+        return result
