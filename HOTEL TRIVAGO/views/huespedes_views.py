@@ -89,8 +89,6 @@ class HuespedesViews:
         self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
         self.page.theme_mode = ft.ThemeMode.LIGHT
 
-        
-
         def eliminar_huesped(e):
             pass
 
@@ -175,13 +173,41 @@ class HuespedesViews:
             print('Debe rellenar todos los campos')
 
     def editar_huesped(self, e):
+            edit_cedula_field = ft.TextField(label="Cédula", width=300, max_length=8, on_change=self.validate_numbers)
+            edit_nombres_field = ft.TextField(label="Nombres", width=300, max_length=15)
+            edit_apellidos_field = ft.TextField(label="Apellidos", width=300, max_length=15)
+            edit_direccion_field = ft.TextField(label="Dirección", width=300, max_length=80)
+            edit_ciudad_field = ft.TextField(label="Ciudad", width=300, max_length=15)
+            edit_email_field = ft.TextField(label="Email", width=300, max_length=30)
+            edit_telefono_field = ft.TextField(label="Teléfono", width=300, max_length=12)
+
+            campos = [
+                (self.cedula_field, edit_cedula_field),
+                (self.nombres_field, edit_nombres_field),
+                (self.apellidos_field, edit_apellidos_field),
+                (self.direccion_field, edit_direccion_field), 
+                (self.ciudad_field, edit_ciudad_field),
+                (self.email_field, edit_email_field),
+                (self.telefono_field, edit_telefono_field)
+                ]
+
+            for original, edit in campos:
+                if original.value != '':
+                    edit.value = original.value
+
             self.page.views.append(
                 ft.View(
                     route='/full',
                     fullscreen_dialog=True,
                     appbar=ft.AppBar(title=ft.Text('Editar Huésped')),
                     controls=[
-                        ft.Text('Textazo', size=150)
+                        edit_cedula_field,
+                        edit_nombres_field,
+                        edit_apellidos_field,
+                        edit_direccion_field,
+                        edit_ciudad_field,
+                        edit_email_field,
+                        edit_telefono_field
                     ],
                 )
             )
