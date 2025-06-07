@@ -220,9 +220,5 @@ class IngresosViews:
             e.control.value = e.control.value[:-1]  # Eliminar el último carácter no numérico
             self.page.update()
 
-    def prueba(self, e=None):
-        ci = self.cedula_huesped_field.value
-        hab = self.codigo_habitacion_field.value
-        print(f'Huesped: {ci} de tipo {type(ci)}\nHabitacion: {hab} de tipo {type(hab)}')
 # Iniciar la aplicación Flet
 ft.app(target=main)

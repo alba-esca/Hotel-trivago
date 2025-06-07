@@ -53,3 +53,31 @@ class ConexionDB:
         except mysql.connector.Error as e:
             self.cerrar_conexion()
             return e
+
+    def listar_ci(self):
+        try:
+            ced_listSF = self.obtener_datos('SELECT ced_hue FROM huesped')
+            ced_list = []
+            for i in range(len(ced_listSF)):
+                value = ced_listSF[i][0]
+                ced_list.append(value)
+            self.cerrar_conexion()
+            return ced_list
+        except mysql.connector.Error as e:
+            self.cerrar_conexion()
+            return e
+
+    def info_huesped(self, ci):
+        try:
+            consulta = 'SELECT * FROM huesped WHERE ced_hue=%s'
+            result = self.obtener_datos(consulta, (ci,))
+            if result:
+                self.cerrar_conexion()
+                return result
+            else:
+                e = 'El huesped no se encuetra registrado'
+                self.cerrar_conexion()
+                return e
+        except mysql.connector.Error as e:
+            self.cerrar_conexion()
+            return e

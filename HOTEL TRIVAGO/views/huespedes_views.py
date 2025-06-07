@@ -80,6 +80,7 @@ def main(page: ft.Page):
         )
     )
 
+#Clase principal de la vista
 class HuespedesViews:
     def __init__(self, page: ft.Page):
         self.page = page
@@ -87,9 +88,6 @@ class HuespedesViews:
         self.page.title = "Módulo de Huéspedes"
         self.page.vertical_alignment = ft.MainAxisAlignment.CENTER
         self.page.theme_mode = ft.ThemeMode.LIGHT
-
-        def agregar_huesped(e):
-            pass
 
         def editar_huesped(e):
             pass
