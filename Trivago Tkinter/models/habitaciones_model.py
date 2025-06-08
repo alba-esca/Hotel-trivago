@@ -155,11 +155,23 @@ class HabitacionesModel:
 
     def eliminar_habitacion(self, cod):
         try:
-            query = 'DELETE FROM habitacion WHERE cod_hab=%s'
-            self.ejecutar_consulta(query, (cod,))
-            result = True
-            self.cerrar_conexion()
-            return result
+            query = 'SELECT * FROM habitacion WHERE cod_hab=%s'
+            conf = self.obtener_valores(query, (cod,))
+            if conf:
+                query = 'SELECT sta_hab FROM habitacion WHERE cod_hab=%s'
+                status = self.obtener_valores(query, (cod,))
+                if status[0][0] == 'D':
+                    query = 'DELETE FROM habitacion WHERE cod_hab=%s'
+                    self.ejecutar_consulta(query, (cod,))
+                    result = True
+                    self.cerrar_conexion()
+                    return result
+                else:
+                    self.cerrar_conexion()
+                    return 'La habitación se encuentra ocupada, asegurese que la estadía de los huéspedes se haya vencido antes de eliminar la habitación'
+            else:
+                self.cerrar_conexion()
+                return 'La habitacion no se encuentra registrada'
         except mysql.connector.Error as e:
             self.cerrar_conexion()
             return e

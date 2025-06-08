@@ -127,11 +127,17 @@ class HuespedesModel:
             query = 'SELECT * FROM huesped WHERE ced_hue=%s'
             conf = self.obtener_valores(query, (ced,))
             if conf:
-                query = 'DELETE FROM huesped WHERE ced_hue=%s'
-                self.ejecutar_consulta(query, (ced,))
-                result = True
-                self.cerrar_conexion()
-                return result
+                query = 'SELECT cod_ing FROM ingreso WHERE ced_hue=%s'
+                hue = self.obtener_valores(query, (ced,))
+                if not hue:
+                    query = 'DELETE FROM huesped WHERE ced_hue=%s'
+                    self.ejecutar_consulta(query, (ced,))
+                    result = True
+                    self.cerrar_conexion()
+                    return result
+                else:
+                    self.cerrar_conexion()
+                    return 'El huésped ya se encuentra asociado a un registro, elimine el registro asociado al huésped antes de eliminarlo'
             else:
                 e = 'El huesped no se encuentra registrado'
                 self.cerrar_conexion()

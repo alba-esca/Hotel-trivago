@@ -6,7 +6,6 @@ class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Aplicación de Gestión Trivago")
-        self.geometry("1200x800")
         self.configure(bg='white')
         self.state('zoomed')
 
@@ -62,6 +61,13 @@ class App(tk.Tk):
         self.image_below_buttons_label = tk.Label(self.image_below_buttons_frame, image=self.image_below_buttons_photo, bg="white")
         self.image_below_buttons_label.pack()
 
+        # Footer
+        self.footer_frame = tk.Frame(self, bg="blue", height=100)  
+        self.footer_frame.pack(fill="x", side="bottom")
+
+        self.footer_label = tk.Label(self.footer_frame, text="© 2025 Trivago. Todos los derechos reservados.", font=("Arial", 10), bg="blue", fg="white")
+        self.footer_label.pack(side="top", pady=30)  
+
     def ver_huespedes(self):
         from views.huespedes_view import HuespedesView
         self.destroy()
@@ -75,8 +81,10 @@ class App(tk.Tk):
         app.mainloop()
 
     def ver_ingresos(self):
-        print("Mostrando módulo de Ingresos")
-        # vista de Ingresos
+        from views.ingresos_view import IngresosView
+        self.destroy()
+        app = IngresosView()
+        app.mainloop()
 
 # Bucle principal para la ejecución de la aplicación
 if __name__ == "__main__":

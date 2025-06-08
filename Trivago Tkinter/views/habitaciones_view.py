@@ -260,6 +260,7 @@ class HabitacionesView(MainView):
                 self.ventana_editar.destroy()
             else:
                 messagebox.showerror('Error', result)
+                self.ventana_editar.destroy()
         else:
             messagebox.showerror('Error', 'Todos los campos son obligatorios')
 
@@ -344,17 +345,3 @@ class HabitacionesView(MainView):
 if __name__ == '__main__':
     app = HabitacionesView()
     app.mainloop()
-
-"""selected_item = self.tabla.selection()
-        if selected_item:
-            item_values = self.tabla.item(selected_item, 'values')
-            codigo = item_values[0]
-            result = messagebox.askyesno('Confirmación', f'¿Estás seguro de eliminar la habitación con código {codigo}?')
-            if result:
-                if self.controller.eliminar_habitacion(codigo):
-                    messagebox.showinfo('Éxito', 'Habitación eliminada correctamente')
-                    self.actualizar_tabla()
-                else:
-                    messagebox.showerror('Error', 'No se pudo eliminar la habitación')
-        else:
-            messagebox.showerror('Error', 'Selecciona una habitación para eliminar')"""
