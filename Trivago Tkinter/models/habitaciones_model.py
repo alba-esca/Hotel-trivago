@@ -97,47 +97,42 @@ class HabitacionesModel:
             if conf:
                 campos_actualizar = []
                 valores_actualizar = []
-                #Conversion de tipo
-                if tipo == 'Normal':
-                    tipo = 'N'
-                elif tipo == 'Ejecutiva':
-                    tipo = 'E'
-                elif tipo == 'Suite':
-                    tipo = 'S'
-                #Conversion de capacidad
-                if capacidad == 'Individual':
-                    capacidad = 'I'
-                elif capacidad == 'Matrimonial':
-                    capacidad = 'M'
-                elif capacidad == 'Doble':
-                    capacidad = 'D'
-                elif capacidad == 'Triple':
-                    capacidad = 'T'
-                #Conversion de estado
-                if estado == 'Disponible':
-                    estado = 'D'
-                elif estado == 'Ocupado':
-                    estado = 'O'
-                query = 'SELECT tip_hab WHERE cod_hab=%s'
-                tipo_old = self.obtener_valores(query, (tipo,))
-                query = 'SELECT cap_hab FROM habitacion WHERE cod_hab=%s'
-                capacidad_old = self.obtener_valores(query, (capacidad,))
-                query = 'SELECT sta_hab FROM habitacion WHERE cod_hab=%s'
-                estado_old = self.obtener_valores(query, (estado,))
+                #Confirmaciones para ver si los campos estan vacios
                 if num:
                     campos_actualizar.append('num_hab=%s')
                     valores_actualizar.append(num)
-                if tipo != tipo_old:
-                    campos_actualizar.append('tipo_hab=%s')
+                if tipo:
+                    #Conversion de tipo
+                    if tipo == 'Normal':
+                        tipo = 'N'
+                    elif tipo == 'Ejecutiva':
+                        tipo = 'E'
+                    elif tipo == 'Suite':
+                        tipo = 'S'
+                    campos_actualizar.append('tip_hab=%s')
                     valores_actualizar.append(tipo)
-                if capacidad != capacidad_old:
-                    campos_actualizar.append('capacidad_hab=%s')
+                if capacidad:
+                    #Conversion de capacidad
+                    if capacidad == 'Individual':
+                        capacidad = 'I'
+                    elif capacidad == 'Matrimonial':
+                        capacidad = 'M'
+                    elif capacidad == 'Doble':
+                        capacidad = 'D'
+                    elif capacidad == 'Triple':
+                        capacidad = 'T'
+                    campos_actualizar.append('cap_hab=%s')
                     valores_actualizar.append(capacidad)
                 if precio:
-                    campos_actualizar.append('precio_hab=%s')
+                    campos_actualizar.append('pre_hab=%s')
                     valores_actualizar.append(precio)
-                if estado != estado_old:
-                    campos_actualizar.append('estado_hab=%s')
+                if estado:
+                    #Conversion de estado
+                    if estado == 'Disponible':
+                        estado = 'D'
+                    elif estado == 'Ocupado':
+                        estado = 'O'
+                    campos_actualizar.append('sta_hab=%s')
                     valores_actualizar.append(estado)
                 if campos_actualizar:
                     query = f'UPDATE habitacion SET {", ".join(campos_actualizar)} WHERE cod_hab=%s'

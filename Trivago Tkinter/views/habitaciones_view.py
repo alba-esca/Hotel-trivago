@@ -209,17 +209,17 @@ class HabitacionesView(MainView):
         self.editar_numero_entry.bind('<KeyRelease>', lambda e: self.verificar(self.editar_numero_entry))
 
         self.tipo_var_editar = tk.StringVar()
-        self.tipo_var_editar.set("Normal")
+        self.tipo_var_editar.set("")
         self.editar_tipo_label = tk.Label(self.central_frame_editar, text='Tipo:', font=('Arial', 18), bg='white')
         self.editar_tipo_label.grid(row=2, column=0, padx=10, pady=10, sticky='e')
-        self.editar_tipo_entry = ttk.Combobox(self.central_frame_editar, textvariable=self.tipo_var_editar, font=('Arial', 18), values=("Normal", "Ejecutiva", "Suite"))
+        self.editar_tipo_entry = ttk.Combobox(self.central_frame_editar, textvariable=self.tipo_var_editar, font=('Arial', 18), values=("", "Normal", "Ejecutiva", "Suite"), state='readonly')
         self.editar_tipo_entry.grid(row=2, column=1, padx=10, pady=10)
 
         self.capacidad_var_editar = tk.StringVar()
-        self.capacidad_var_editar.set("Individual")
+        self.capacidad_var_editar.set("")
         self.editar_capacidad_label = tk.Label(self.central_frame_editar, text='Capacidad:', font=('Arial', 18), bg='white')
         self.editar_capacidad_label.grid(row=3, column=0, padx=10, pady=10, sticky='e')
-        self.editar_capacidad_entry = ttk.Combobox(self.central_frame_editar, textvariable=self.capacidad_var_editar, font=('Arial', 18), values=("Individual", "Matrimonial", "Doble", "Triple"))
+        self.editar_capacidad_entry = ttk.Combobox(self.central_frame_editar, textvariable=self.capacidad_var_editar, font=('Arial', 18), values=("", "Individual", "Matrimonial", "Doble", "Triple"), state='readonly')
         self.editar_capacidad_entry.grid(row=3, column=1, padx=10, pady=10)
 
         self.editar_precio_label = tk.Label(self.central_frame_editar, text='Precio por Noche:', font=('Arial', 18), bg='white')
@@ -230,10 +230,10 @@ class HabitacionesView(MainView):
         self.editar_precio_entry.bind('<KeyRelease>', lambda e: self.on_validate(self.editar_precio_entry))
 
         self.estado_var_editar = tk.StringVar()
-        self.estado_var_editar.set("Disponible")
+        self.estado_var_editar.set("")
         self.editar_estado_label = tk.Label(self.central_frame_editar, text='Estado:', font=('Arial', 18), bg='white')
         self.editar_estado_label.grid(row=5, column=0, padx=10, pady=10, sticky='e')
-        self.editar_estado_entry = ttk.Combobox(self.central_frame_editar, textvariable=self.estado_var_editar, font=('Arial', 18), values=("Disponible", "Ocupado"), state='readonly')
+        self.editar_estado_entry = ttk.Combobox(self.central_frame_editar, textvariable=self.estado_var_editar, font=('Arial', 18), values=("", "Disponible", "Ocupado"), state='readonly')
         self.editar_estado_entry.grid(row=5, column=1, padx=10, pady=10)
 
         self.editar_habitacion_boton = tk.Button(self.central_frame_editar, text='Editar', command=self.actualizar_habitacion, bg='blue', fg='white', font=('Arial', 12, 'bold'))
@@ -248,18 +248,18 @@ class HabitacionesView(MainView):
     def actualizar_habitacion(self):
         codigo = self.editar_codigo_entry.get()
         numero = self.editar_numero_entry.get()
-        tipo = self.tipo_var_editar.get()
-        capacidad = self.capacidad_var_editar.get()
+        tipo = self.editar_tipo_entry.get()
+        capacidad = self.editar_capacidad_entry.get()
         precio = self.editar_precio_entry.get()
-        estado = self.estado_var_editar.get()
+        estado = self.editar_estado_entry.get()
         if codigo:
             result = self.controller.actualizar_habitacion(codigo, numero, tipo, capacidad, precio, estado)
-            if result:
+            if result == True:
                 messagebox.showinfo('Éxito', 'Habitación editada correctamente')
                 self.actualizar_tabla()
                 self.ventana_editar.destroy()
             else:
-                messagebox.showerror('Error', 'No se pudo editar la habitación')
+                messagebox.showerror('Error', result)
         else:
             messagebox.showerror('Error', 'Todos los campos son obligatorios')
 
